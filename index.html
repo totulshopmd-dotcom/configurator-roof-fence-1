@@ -23,7 +23,6 @@
   --green:#25D366;
   --shadow:0 10px 28px rgba(0,0,0,.06);
   --shadow-hover:0 14px 34px rgba(0,0,0,.10);
-  --radius:26px;
   --app-height:100vh;
   --safe-top:env(safe-area-inset-top, 0px);
   --safe-bottom:env(safe-area-inset-bottom, 0px);
@@ -66,7 +65,6 @@ a{text-decoration:none;color:inherit}
     max(10px,var(--safe-bottom))
     max(10px,var(--safe-left));
 }
-
 .ts-page{
   width:100%;
   min-height:calc(var(--app-height) - max(10px,var(--safe-top)) - max(10px,var(--safe-bottom)));
@@ -75,7 +73,6 @@ a{text-decoration:none;color:inherit}
   align-items:stretch;
   justify-content:center;
 }
-
 .ts-card{
   width:100%;
   max-width:1180px;
@@ -89,7 +86,6 @@ a{text-decoration:none;color:inherit}
   display:flex;
   flex-direction:column;
 }
-
 .ts-progress{
   height:8px;
   background:#eceff3;
@@ -109,35 +105,29 @@ a{text-decoration:none;color:inherit}
   display:none;
   padding:24px 22px 22px;
   opacity:0;
-  transform:translateX(24px) scale(.985);
-  transition:opacity .35s ease, transform .35s ease;
+  transform:translateX(34px);
+  transition:opacity .32s ease, transform .32s ease;
   will-change:opacity,transform;
 }
 .ts-step.ts-active{
-  display:flex;
-  flex-direction:column;
+  display:block;
   opacity:1;
-  transform:translateX(0) scale(1);
-  animation:tsStepIn .35s ease;
-  flex:1;
-  min-height:calc(var(--app-height) - 28px - max(10px,var(--safe-top)) - max(10px,var(--safe-bottom)));
-  min-height:calc(100dvh - 28px - max(10px,var(--safe-top)) - max(10px,var(--safe-bottom)));
+  transform:translateX(0);
+  animation:tsStepIn .32s ease;
 }
 .ts-step.ts-leaving-left{
-  display:flex;
-  flex-direction:column;
+  display:block;
   opacity:0;
   transform:translateX(-26px) scale(.985);
 }
 .ts-step.ts-leaving-right{
-  display:flex;
-  flex-direction:column;
+  display:block;
   opacity:0;
   transform:translateX(26px) scale(.985);
 }
 @keyframes tsStepIn{
-  from{opacity:0;transform:translateX(24px) scale(.985)}
-  to{opacity:1;transform:translateX(0) scale(1)}
+  from{opacity:0;transform:translateX(34px)}
+  to{opacity:1;transform:translateX(0)}
 }
 
 .ts-step-head{
@@ -581,7 +571,7 @@ a{text-decoration:none;color:inherit}
   margin-top:18px;
 }
 .ts-actions-bottom{
-  margin-top:auto;
+  margin-top:18px;
 }
 .ts-btn{
   width:100%;
@@ -639,9 +629,6 @@ a{text-decoration:none;color:inherit}
 .ts-thank{
   text-align:center;
   padding-top:10px;
-  display:flex;
-  flex-direction:column;
-  flex:1;
 }
 .ts-thank-icon{
   width:120px;
@@ -889,8 +876,6 @@ a{text-decoration:none;color:inherit}
     border-radius:0;
     border-left:0;
     border-right:0;
-    min-height:100dvh;
-    min-height:var(--app-height);
   }
   .ts-step{
     padding:18px 14px 18px;
@@ -908,7 +893,7 @@ a{text-decoration:none;color:inherit}
 }
 @supports (-webkit-touch-callout:none){
   body{min-height:-webkit-fill-available}
-  .ts-app,.ts-page,.ts-card,.ts-step.ts-active{min-height:-webkit-fill-available}
+  .ts-app,.ts-page,.ts-card{min-height:-webkit-fill-available}
 }
 </style>
 </head>
@@ -1402,17 +1387,35 @@ a{text-decoration:none;color:inherit}
   }
 
   function scrollToTopHard(){
-    window.scrollTo(0,0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    requestAnimationFrame(() => {
-      window.scrollTo({ top:0, behavior:"auto" });
+    try{
+      window.scrollTo(0, 0);
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
-    });
-    setTimeout(() => {
-      window.scrollTo({ top:0, behavior:"smooth" });
-    }, 30);
+
+      const card = document.querySelector(".ts-card");
+      const page = document.querySelector(".ts-page");
+      if(card) card.scrollTop = 0;
+      if(page) page.scrollTop = 0;
+
+      setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        if(card) card.scrollTop = 0;
+        if(page) page.scrollTop = 0;
+      }, 20);
+
+      setTimeout(() => {
+        const active = document.querySelector(".ts-step.ts-active");
+        if(active){
+          active.scrollIntoView({ block: "start", behavior: "smooth" });
+        }else{
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        }
+      }, 60);
+    }catch(e){
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }
   }
 
   function getModel(){ return roofModels.find(m => m.id === state.model) || roofModels[0]; }
@@ -1532,24 +1535,28 @@ a{text-decoration:none;color:inherit}
     $("progressBar").style.width = progressWidthForStep(step) + "%";
     renderAll();
 
+    document.querySelectorAll(".ts-step").forEach(el => {
+      el.classList.remove("ts-active","ts-leaving-left","ts-leaving-right");
+    });
+
     if(!currentEl || currentEl === nextEl){
-      document.querySelectorAll(".ts-step").forEach(el => el.classList.remove("ts-active","ts-leaving-left","ts-leaving-right"));
       nextEl.classList.add("ts-active");
       scrollToTopHard();
       return;
     }
 
-    currentEl.classList.remove("ts-active","ts-leaving-left","ts-leaving-right");
     currentEl.classList.add(direction === "forward" ? "ts-leaving-left" : "ts-leaving-right");
-    nextEl.classList.remove("ts-leaving-left","ts-leaving-right");
     nextEl.classList.add("ts-active");
 
     setTimeout(() => {
-      currentEl.classList.remove("ts-leaving-left","ts-leaving-right");
-      if(currentEl !== nextEl) currentEl.style.display = "";
-    }, 360);
+      currentEl.classList.remove("ts-leaving-left","ts-leaving-right","ts-active");
+    }, 320);
 
-    setTimeout(scrollToTopHard, 10);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollToTopHard();
+      });
+    });
   }
 
   function validateStep(step){
