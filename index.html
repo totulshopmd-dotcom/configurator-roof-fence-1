@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Calculator Acoperiș | TotulShop.md</title>
 <meta name="description" content="Calculează rapid prețul estimativ pentru acoperiș metalic. Alege modelul, culoarea, forma și dimensiunile, apoi solicită oferta exactă de la TotulShop.md." />
 <meta name="keywords" content="calculator acoperiș, țiglă metalică, preț acoperiș, acoperiș la cheie, TotulShop, Moldova" />
@@ -23,40 +23,79 @@
   --green:#25D366;
   --shadow:0 10px 28px rgba(0,0,0,.06);
   --shadow-hover:0 14px 34px rgba(0,0,0,.10);
-  --radius:22px;
+  --radius:26px;
+  --app-height:100vh;
+  --safe-top:env(safe-area-inset-top, 0px);
+  --safe-bottom:env(safe-area-inset-bottom, 0px);
+  --safe-left:env(safe-area-inset-left, 0px);
+  --safe-right:env(safe-area-inset-right, 0px);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  height:100%;
+  -webkit-text-size-adjust:100%;
+}
 body{
   margin:0;
+  min-height:100%;
   font-family:Arial,Helvetica,sans-serif;
   background:linear-gradient(180deg,#f7f8fa 0%, #f1f3f6 100%);
   color:var(--text);
+  overflow-x:hidden;
 }
-img{max-width:100%;display:block}
-button,input,textarea{font:inherit}
-a{text-decoration:none}
+img{
+  max-width:100%;
+  display:block;
+  -webkit-user-drag:none;
+}
+button,input,textarea,select{
+  font:inherit;
+  -webkit-appearance:none;
+  appearance:none;
+}
+a{text-decoration:none;color:inherit}
+
+.ts-app{
+  min-height:var(--app-height);
+  min-height:100dvh;
+  width:100%;
+  padding:
+    max(10px,var(--safe-top))
+    max(10px,var(--safe-right))
+    max(10px,var(--safe-bottom))
+    max(10px,var(--safe-left));
+}
 
 .ts-page{
-  max-width:780px;
-  margin:0 auto;
-  padding:10px 14px 120px;
+  width:100%;
+  min-height:calc(var(--app-height) - max(10px,var(--safe-top)) - max(10px,var(--safe-bottom)));
+  min-height:calc(100dvh - max(10px,var(--safe-top)) - max(10px,var(--safe-bottom)));
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
 }
 
 .ts-card{
+  width:100%;
+  max-width:1180px;
+  min-height:100%;
   background:var(--card);
   border:1px solid var(--line);
-  border-radius:28px;
+  border-radius:32px;
   box-shadow:var(--shadow);
   overflow:hidden;
-  margin-top:18px;
   position:relative;
+  display:flex;
+  flex-direction:column;
 }
 
 .ts-progress{
   height:8px;
   background:#eceff3;
-  position:relative;
+  position:sticky;
+  top:0;
+  z-index:5;
 }
 .ts-progress > span{
   position:absolute;
@@ -68,25 +107,31 @@ a{text-decoration:none}
 
 .ts-step{
   display:none;
-  padding:24px 20px 22px;
+  padding:24px 22px 22px;
   opacity:0;
   transform:translateX(24px) scale(.985);
   transition:opacity .35s ease, transform .35s ease;
   will-change:opacity,transform;
 }
 .ts-step.ts-active{
-  display:block;
+  display:flex;
+  flex-direction:column;
   opacity:1;
   transform:translateX(0) scale(1);
   animation:tsStepIn .35s ease;
+  flex:1;
+  min-height:calc(var(--app-height) - 28px - max(10px,var(--safe-top)) - max(10px,var(--safe-bottom)));
+  min-height:calc(100dvh - 28px - max(10px,var(--safe-top)) - max(10px,var(--safe-bottom)));
 }
 .ts-step.ts-leaving-left{
-  display:block;
+  display:flex;
+  flex-direction:column;
   opacity:0;
   transform:translateX(-26px) scale(.985);
 }
 .ts-step.ts-leaving-right{
-  display:block;
+  display:flex;
+  flex-direction:column;
   opacity:0;
   transform:translateX(26px) scale(.985);
 }
@@ -124,7 +169,7 @@ a{text-decoration:none}
 }
 .ts-step h2{
   margin:0 0 8px;
-  font-size:30px;
+  font-size:clamp(27px,3vw,38px);
   line-height:1.08;
   color:#111;
 }
@@ -168,7 +213,7 @@ a{text-decoration:none}
 }
 .ts-model-media img{
   width:100%;
-  max-height:185px;
+  max-height:220px;
   object-fit:contain;
 }
 .ts-model-body{
@@ -231,7 +276,7 @@ a{text-decoration:none}
   background:#fff;
   border:1px solid #edf0f3;
   border-radius:18px;
-  min-height:230px;
+  min-height:240px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -239,7 +284,7 @@ a{text-decoration:none}
 }
 .ts-preview-figure img{
   width:100%;
-  max-height:185px;
+  max-height:230px;
   object-fit:contain;
 }
 .ts-preview-meta{
@@ -270,7 +315,7 @@ a{text-decoration:none}
 
 .ts-color-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:12px;
   margin-top:18px;
 }
@@ -416,7 +461,7 @@ a{text-decoration:none}
   border-radius:20px;
   background:#fff;
   padding:0 18px;
-  font-size:32px;
+  font-size:clamp(22px,3vw,32px);
   font-weight:900;
   color:#374151;
   outline:none;
@@ -432,18 +477,19 @@ a{text-decoration:none}
 }
 .ts-help-box{
   margin-top:16px;
-  padding:14px 16px;
+  padding:16px 18px;
   border-radius:18px;
   background:#fff5f5;
   border:1px solid #ffd5d9;
   color:#9f1239;
   font-size:14px;
-  line-height:1.55;
+  line-height:1.65;
+  font-weight:700;
 }
 
 .ts-city-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:12px;
   margin-top:18px;
 }
@@ -534,6 +580,9 @@ a{text-decoration:none}
   gap:12px;
   margin-top:18px;
 }
+.ts-actions-bottom{
+  margin-top:auto;
+}
 .ts-btn{
   width:100%;
   min-height:74px;
@@ -587,41 +636,12 @@ a{text-decoration:none}
   font-weight:900;
 }
 
-.ts-floating-bar{
-  position:fixed;
-  left:0;right:0;bottom:0;
-  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-  background:rgba(244,245,247,.96);
-  backdrop-filter:blur(10px);
-  z-index:40;
-  border-top:1px solid rgba(0,0,0,.05);
-}
-.ts-floating-inner{
-  max-width:760px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.ts-mini-btn{
-  min-height:60px;
-  border-radius:18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  color:#fff;
-  font-size:18px;
-  font-weight:900;
-  border:0;
-  cursor:pointer;
-  box-shadow:0 10px 22px rgba(0,0,0,.12);
-}
-.ts-mini-btn svg{width:22px;height:22px}
-
 .ts-thank{
   text-align:center;
   padding-top:10px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
 }
 .ts-thank-icon{
   width:120px;
@@ -677,360 +697,562 @@ a{text-decoration:none}
   pointer-events:none;
 }
 
+#offerExportWrap{
+  position:fixed;
+  left:-99999px;
+  top:0;
+  width:1080px;
+  height:1920px;
+  background:#ffffff;
+  z-index:-1;
+  overflow:hidden;
+}
+#offerExportCard{
+  width:1080px;
+  height:1920px;
+  background:#fff;
+  color:#111;
+  padding:64px;
+  font-family:Arial,Helvetica,sans-serif;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+}
+.ts-export-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+}
+.ts-export-badge{
+  font-size:24px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#9ca3af;
+  font-weight:800;
+  margin-bottom:16px;
+}
+.ts-export-title{
+  font-size:64px;
+  font-weight:900;
+  line-height:1.05;
+  color:#111;
+}
+.ts-export-sub{
+  margin-top:12px;
+  font-size:30px;
+  color:#6b7280;
+}
+.ts-export-brand{
+  text-align:right;
+  font-size:22px;
+  text-transform:uppercase;
+  color:#c7ccd4;
+  letter-spacing:2px;
+  font-weight:800;
+}
+.ts-export-image-box{
+  background:linear-gradient(180deg,#fbfbfb 0%,#f3f4f6 100%);
+  border:1px solid #e5e7eb;
+  border-radius:34px;
+  padding:24px;
+}
+.ts-export-image-box img{
+  width:100%;
+  height:420px;
+  object-fit:contain;
+}
+.ts-export-color{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:22px;
+  padding:18px 20px;
+  font-size:28px;
+  font-weight:800;
+}
+.ts-export-color-dot{
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,.15);
+  display:inline-block;
+}
+.ts-export-total{
+  background:#fff5f5;
+  border:1px solid #ffd5d9;
+  border-radius:34px;
+  padding:26px;
+}
+.ts-export-total-label{
+  font-size:22px;
+  text-transform:uppercase;
+  color:#b91c1c;
+  font-weight:800;
+  letter-spacing:2px;
+  margin-bottom:14px;
+}
+.ts-export-total-value{
+  font-size:82px;
+  line-height:1;
+  font-weight:900;
+  color:#c40010;
+}
+.ts-export-table{
+  border:1px solid #e5e7eb;
+  border-radius:34px;
+  overflow:hidden;
+}
+.ts-export-table table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:27px;
+}
+.ts-export-table td{
+  padding:22px 24px;
+  border-bottom:1px solid #eef2f7;
+}
+.ts-export-table tr:last-child td{
+  border-bottom:0;
+}
+.ts-export-table td:first-child{
+  color:#6b7280;
+}
+.ts-export-table td:last-child{
+  font-weight:800;
+  text-align:right;
+}
+.ts-export-client{
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  border-radius:28px;
+  padding:22px;
+}
+.ts-export-client-title{
+  font-size:22px;
+  text-transform:uppercase;
+  color:#9ca3af;
+  font-weight:800;
+  letter-spacing:2px;
+  margin-bottom:16px;
+}
+.ts-export-client-grid{
+  display:grid;
+  gap:10px;
+  font-size:27px;
+}
+.ts-export-client-grid span{
+  color:#6b7280;
+}
+.ts-export-footer{
+  margin-top:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding-top:12px;
+  font-size:22px;
+  color:#9ca3af;
+}
+
+@media (min-width:700px){
+  .ts-model-grid{grid-template-columns:repeat(2,1fr)}
+  .ts-color-grid{grid-template-columns:repeat(3,1fr)}
+  .ts-option-grid{grid-template-columns:repeat(3,1fr)}
+  .ts-city-grid{grid-template-columns:repeat(3,1fr)}
+  .ts-submit-row{grid-template-columns:1fr 1fr}
+}
+@media (min-width:1024px){
+  .ts-step{padding:34px 34px 28px}
+  .ts-model-grid{grid-template-columns:repeat(3,1fr)}
+  .ts-color-grid{grid-template-columns:repeat(4,1fr)}
+  .ts-city-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media (max-width:900px){
+  .ts-card{
+    max-width:100%;
+    border-radius:26px;
+  }
+}
 @media (max-width:640px){
-  .ts-page{padding-left:10px;padding-right:10px}
+  .ts-app{
+    padding:
+      max(0px,var(--safe-top))
+      max(0px,var(--safe-right))
+      max(0px,var(--safe-bottom))
+      max(0px,var(--safe-left));
+  }
+  .ts-card{
+    border-radius:0;
+    border-left:0;
+    border-right:0;
+    min-height:100dvh;
+    min-height:var(--app-height);
+  }
+  .ts-step{
+    padding:18px 14px 18px;
+  }
   .ts-step h2{font-size:24px}
   .ts-grid-2{grid-template-columns:1fr}
   .ts-color-grid{grid-template-columns:repeat(2,1fr)}
   .ts-city-grid{grid-template-columns:repeat(2,1fr)}
   .ts-shape-grid{grid-template-columns:1fr 1fr}
-  .ts-input{font-size:28px;height:70px}
-  .ts-btn{font-size:18px}
+  .ts-input{font-size:26px;height:68px}
+  .ts-btn{font-size:18px;min-height:68px}
   .ts-direct{font-size:16px}
+  .ts-thank h3{font-size:28px}
+  .ts-thank p{font-size:16px}
+}
+@supports (-webkit-touch-callout:none){
+  body{min-height:-webkit-fill-available}
+  .ts-app,.ts-page,.ts-card,.ts-step.ts-active{min-height:-webkit-fill-available}
 }
 </style>
 </head>
 <body>
 
-<div class="ts-page">
-  <div class="ts-card">
-    <div class="ts-progress"><span id="progressBar"></span></div>
+<div class="ts-app">
+  <div class="ts-page">
+    <div class="ts-card">
+      <div class="ts-progress"><span id="progressBar"></span></div>
 
-    <section class="ts-step ts-active" data-step="1">
-      <div class="ts-step-head">
-        <div>
-          <div class="ts-step-no">Pas 1 din 7</div>
-          <h2>Alege modelul de țiglă</h2>
-          <p>Selectează modelul dorit. După aceea vei putea alege culoarea.</p>
-        </div>
-      </div>
-      <div class="ts-model-grid" id="modelGrid"></div>
-      <button class="ts-btn ts-btn-main" type="button" id="next1">Continuă →</button>
-      <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
-    </section>
-
-    <section class="ts-step" data-step="2">
-      <div class="ts-step-head">
-        <div>
-          <div class="ts-step-no">Pas 2 din 7</div>
-          <h2>Alege culoarea</h2>
-          <p>Am păstrat culorile disponibile pentru modelul selectat.</p>
-        </div>
-        <button class="ts-back" type="button" data-back="1">← Înapoi</button>
-      </div>
-      <div class="ts-preview">
-        <div class="ts-preview-figure">
-          <img id="previewImage" src="" alt="Model selectat" loading="lazy">
-        </div>
-        <div class="ts-preview-meta">
-          <div class="ts-chip"><strong id="previewModelName">-</strong></div>
-          <div class="ts-chip"><span class="ts-dot" id="previewDot"></span><span id="previewColorName">-</span></div>
-        </div>
-      </div>
-      <div class="ts-color-grid" id="colorGrid"></div>
-      <button class="ts-btn ts-btn-main" type="button" id="next2">Continuă →</button>
-      <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
-    </section>
-
-    <section class="ts-step" data-step="3">
-      <div class="ts-step-head">
-        <div>
-          <div class="ts-step-no">Pas 3 din 7</div>
-          <h2>Forma acoperișului</h2>
-          <p>Alege tipul de acoperiș pentru calculul corect al suprafeței.</p>
-        </div>
-        <button class="ts-back" type="button" data-back="2">← Înapoi</button>
-      </div>
-      <div class="ts-shape-grid">
-        <div class="ts-shape-card ts-selected" data-shape="2ape">
-          <div class="ts-shape-icon">
-            <svg viewBox="0 0 160 90" fill="none">
-              <path d="M15 70L80 20L145 70" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M40 70H120" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
-            </svg>
+      <section class="ts-step ts-active" data-step="1">
+        <div class="ts-step-head">
+          <div>
+            <div class="ts-step-no">Pas 1 din 7</div>
+            <h2>Alege modelul de țiglă</h2>
+            <p>Selectează modelul dorit. După aceea vei putea alege culoarea.</p>
           </div>
-          <strong>2 ape</strong>
-          <span>Calcul pentru acoperiș în două pante</span>
         </div>
-        <div class="ts-shape-card" data-shape="4ape">
-          <div class="ts-shape-icon">
-            <svg viewBox="0 0 160 90" fill="none">
-              <path d="M20 62L60 35H100L140 62" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M60 35L80 18L100 35" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M45 62H115" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
-            </svg>
+        <div class="ts-model-grid" id="modelGrid"></div>
+        <div class="ts-actions-bottom">
+          <button class="ts-btn ts-btn-main" type="button" id="next1">Continuă →</button>
+          <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
+        </div>
+      </section>
+
+      <section class="ts-step" data-step="2">
+        <div class="ts-step-head">
+          <div>
+            <div class="ts-step-no">Pas 2 din 7</div>
+            <h2>Alege culoarea</h2>
+            <p>Am păstrat culorile disponibile pentru modelul selectat.</p>
           </div>
-          <strong>4 ape</strong>
-          <span>Calcul pentru acoperiș în patru pante</span>
+          <button class="ts-back" type="button" data-back="1">← Înapoi</button>
         </div>
-      </div>
-      <button class="ts-btn ts-btn-main" type="button" id="next3">Continuă →</button>
-      <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
-    </section>
+        <div class="ts-preview">
+          <div class="ts-preview-figure">
+            <img id="previewImage" src="" alt="Model selectat">
+          </div>
+          <div class="ts-preview-meta">
+            <div class="ts-chip"><strong id="previewModelName">-</strong></div>
+            <div class="ts-chip"><span class="ts-dot" id="previewDot"></span><span id="previewColorName">-</span></div>
+          </div>
+        </div>
+        <div class="ts-color-grid" id="colorGrid"></div>
+        <div class="ts-actions-bottom">
+          <button class="ts-btn ts-btn-main" type="button" id="next2">Continuă →</button>
+          <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
+        </div>
+      </section>
 
-    <section class="ts-step" data-step="4">
-      <div class="ts-step-head">
-        <div>
-          <div class="ts-step-no">Pas 4 din 7</div>
-          <h2>Dimensiunile casei</h2>
-          <p>Introdu lungimea și lățimea casei la sol, plus panta și streașina.</p>
+      <section class="ts-step" data-step="3">
+        <div class="ts-step-head">
+          <div>
+            <div class="ts-step-no">Pas 3 din 7</div>
+            <h2>Forma acoperișului</h2>
+            <p>Alege tipul de acoperiș pentru calculul corect al suprafeței.</p>
+          </div>
+          <button class="ts-back" type="button" data-back="2">← Înapoi</button>
         </div>
-        <button class="ts-back" type="button" data-back="3">← Înapoi</button>
-      </div>
-      <div class="ts-grid-2">
-        <div class="ts-field">
-          <label for="houseLength">Lungime (m)</label>
-          <input class="ts-input" id="houseLength" type="number" min="1" step="0.1" value="12" placeholder="Ex: 12">
+        <div class="ts-shape-grid">
+          <div class="ts-shape-card ts-selected" data-shape="2ape">
+            <div class="ts-shape-icon">
+              <svg viewBox="0 0 160 90" fill="none">
+                <path d="M15 70L80 20L145 70" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M40 70H120" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <strong>2 ape</strong>
+            <span>Calcul pentru acoperiș în două pante</span>
+          </div>
+          <div class="ts-shape-card" data-shape="4ape">
+            <div class="ts-shape-icon">
+              <svg viewBox="0 0 160 90" fill="none">
+                <path d="M20 62L60 35H100L140 62" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M60 35L80 18L100 35" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M45 62H115" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <strong>4 ape</strong>
+            <span>Calcul pentru acoperiș în patru pante</span>
+          </div>
         </div>
-        <div class="ts-field">
-          <label for="houseWidth">Lățime (m)</label>
-          <input class="ts-input" id="houseWidth" type="number" min="1" step="0.1" value="10" placeholder="Ex: 10">
+        <div class="ts-actions-bottom">
+          <button class="ts-btn ts-btn-main" type="button" id="next3">Continuă →</button>
+          <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
         </div>
-        <div class="ts-field">
-          <label for="houseSlope">Pantă (%)</label>
-          <input class="ts-input" id="houseSlope" type="number" min="1" step="1" value="35" placeholder="Ex: 35">
-        </div>
-        <div class="ts-field">
-          <label for="houseEave">Streașină (cm)</label>
-          <input class="ts-input" id="houseEave" type="number" min="0" step="1" value="60" placeholder="Ex: 60">
-        </div>
-      </div>
-      <div class="ts-help-box">
-        Formula voastră de pantă a fost păstrată. La acoperișul în 4 ape se aplică separat calculul pentru trapeze, triunghiuri și corecția de muchii.
-      </div>
-      <button class="ts-btn ts-btn-main" type="button" id="next4">Continuă →</button>
-      <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
-    </section>
+      </section>
 
-    <section class="ts-step" data-step="5">
-      <div class="ts-step-head">
-        <div>
-          <div class="ts-step-no">Pas 5 din 7</div>
-          <h2>Alege pachetul</h2>
-          <p>Poți calcula doar țigla, țigla cu accesorii sau acoperiș la cheie.</p>
+      <section class="ts-step" data-step="4">
+        <div class="ts-step-head">
+          <div>
+            <div class="ts-step-no">Pas 4 din 7</div>
+            <h2>Dimensiunile casei</h2>
+            <p>Introdu lungimea și lățimea casei la sol, plus panta și streașina.</p>
+          </div>
+          <button class="ts-back" type="button" data-back="3">← Înapoi</button>
         </div>
-        <button class="ts-back" type="button" data-back="4">← Înapoi</button>
-      </div>
-      <div class="ts-option-grid">
-        <div class="ts-option-card ts-selected" data-package="tile">
-          <strong>Doar țiglă</strong>
-          <p>Calcul orientativ doar pentru țigla metalică, fără accesorii și fără montaj complet.</p>
+        <div class="ts-grid-2">
+          <div class="ts-field">
+            <label for="houseLength">Lungime (m)</label>
+            <input class="ts-input" id="houseLength" type="number" min="1" step="0.1" value="12" placeholder="Ex: 12" inputmode="decimal">
+          </div>
+          <div class="ts-field">
+            <label for="houseWidth">Lățime (m)</label>
+            <input class="ts-input" id="houseWidth" type="number" min="1" step="0.1" value="10" placeholder="Ex: 10" inputmode="decimal">
+          </div>
+          <div class="ts-field">
+            <label for="houseSlope">Pantă (%)</label>
+            <input class="ts-input" id="houseSlope" type="number" min="1" step="1" value="35" placeholder="Ex: 35" inputmode="numeric">
+          </div>
+          <div class="ts-field">
+            <label for="houseEave">Streașină (cm)</label>
+            <input class="ts-input" id="houseEave" type="number" min="0" step="1" value="60" placeholder="Ex: 60" inputmode="numeric">
+          </div>
         </div>
-        <div class="ts-option-card" data-package="accessories">
-          <strong>Țiglă + accesorii</strong>
-          <p>La calcul se adaugă automat accesoriile, pe baza formulei voastre actuale.</p>
+        <div class="ts-help-box">
+          Primești rapid o estimare clară și bine calculată. Sistemul ține cont de forma acoperișului, panta, dimensiunile și elementele importante ale proiectului pentru un preț orientativ cât mai apropiat de oferta reală.
         </div>
-        <div class="ts-option-card" data-package="turnkey">
-          <strong>Acoperiș la cheie</strong>
-          <p>Se aplică prețul special pe m² pentru pachet complet, separat de accesoriile standard.</p>
+        <div class="ts-actions-bottom">
+          <button class="ts-btn ts-btn-main" type="button" id="next4">Continuă →</button>
+          <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
         </div>
-      </div>
-      <button class="ts-btn ts-btn-main" type="button" id="next5">Continuă →</button>
-      <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
-    </section>
+      </section>
 
-    <section class="ts-step" data-step="6">
-      <div class="ts-step-head">
-        <div>
-          <div class="ts-step-no">Pas 6 din 7</div>
-          <h2>Localitatea</h2>
-          <p>Unde se va monta acoperișul?</p>
+      <section class="ts-step" data-step="5">
+        <div class="ts-step-head">
+          <div>
+            <div class="ts-step-no">Pas 5 din 7</div>
+            <h2>Alege pachetul</h2>
+            <p>Poți calcula doar țigla, țigla cu accesorii sau acoperiș la cheie.</p>
+          </div>
+          <button class="ts-back" type="button" data-back="4">← Înapoi</button>
         </div>
-        <button class="ts-back" type="button" data-back="5">← Înapoi</button>
-      </div>
-      <div class="ts-city-grid" id="cityGrid">
-        <button class="ts-city-btn" type="button" data-city="Chișinău">Chișinău</button>
-        <button class="ts-city-btn" type="button" data-city="Bălți">Bălți</button>
-        <button class="ts-city-btn" type="button" data-city="Ialoveni">Ialoveni</button>
-        <button class="ts-city-btn" type="button" data-city="Orhei">Orhei</button>
-        <button class="ts-city-btn" type="button" data-city="Cahul">Cahul</button>
-        <button class="ts-city-btn" type="button" data-city="Ungheni">Ungheni</button>
-        <button class="ts-city-btn" type="button" data-city="Soroca">Soroca</button>
-        <button class="ts-city-btn" type="button" data-city="Edineț">Edineț</button>
-        <button class="ts-city-btn" type="button" data-city="Comrat">Comrat</button>
-        <button class="ts-city-btn" type="button" data-city="Strășeni">Strășeni</button>
-        <button class="ts-city-btn" type="button" data-city="Hîncești">Hîncești</button>
-        <button class="ts-city-btn" type="button" data-city="Drochia">Drochia</button>
-        <button class="ts-city-btn" type="button" data-city="Florești">Florești</button>
-        <button class="ts-city-btn" type="button" data-city="Căușeni">Căușeni</button>
-        <button class="ts-city-btn" type="button" data-city="Criuleni">Criuleni</button>
-        <button class="ts-city-btn" type="button" data-city="Nisporeni">Nisporeni</button>
-        <button class="ts-city-btn" type="button" data-city="Ștefan Vodă">Ștefan Vodă</button>
-        <button class="ts-city-btn" type="button" data-city="Altă localitate">Altă localitate</button>
-      </div>
-      <div class="ts-city-other" id="cityOtherWrap">
-        <div class="ts-field">
-          <label for="cityOther">Scrie localitatea</label>
-          <input class="ts-input" id="cityOther" type="text" placeholder="Ex: Cimișlia">
+        <div class="ts-option-grid">
+          <div class="ts-option-card ts-selected" data-package="tile">
+            <strong>Doar țiglă</strong>
+            <p>Calcul orientativ doar pentru țigla metalică, fără accesorii și fără montaj complet.</p>
+          </div>
+          <div class="ts-option-card" data-package="accessories">
+            <strong>Țiglă + accesorii</strong>
+            <p>La calcul se adaugă automat accesoriile, pe baza formulei voastre actuale.</p>
+          </div>
+          <div class="ts-option-card" data-package="turnkey">
+            <strong>Acoperiș la cheie</strong>
+            <p>Se aplică prețul special pe m² pentru pachet complet, separat de accesoriile standard.</p>
+          </div>
         </div>
-      </div>
-      <button class="ts-btn ts-btn-main" type="button" id="next6">Continuă →</button>
-      <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
-    </section>
+        <div class="ts-actions-bottom">
+          <button class="ts-btn ts-btn-main" type="button" id="next5">Continuă →</button>
+          <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
+        </div>
+      </section>
 
-    <section class="ts-step" data-step="7">
-      <div class="ts-step-head">
-        <div>
-          <div class="ts-step-no">Pas 7 din 7</div>
-          <h2>Rezumat și datele tale</h2>
-          <p>Verifică estimarea, apoi primești oferta exactă.</p>
+      <section class="ts-step" data-step="6">
+        <div class="ts-step-head">
+          <div>
+            <div class="ts-step-no">Pas 6 din 7</div>
+            <h2>Localitatea</h2>
+            <p>Unde se va monta acoperișul?</p>
+          </div>
+          <button class="ts-back" type="button" data-back="5">← Înapoi</button>
         </div>
-        <button class="ts-back" type="button" data-back="6">← Înapoi</button>
-      </div>
-      <div class="ts-estimate">
-        <div class="ts-estimate-label">Estimare preț</div>
-        <div class="ts-estimate-row">
-          <div><div id="summaryLine1" style="font-size:19px;">Țiglă metalică × 0 m²</div></div>
-          <strong id="summaryPartial">0 lei</strong>
+        <div class="ts-city-grid" id="cityGrid">
+          <button class="ts-city-btn" type="button" data-city="Chișinău">Chișinău</button>
+          <button class="ts-city-btn" type="button" data-city="Bălți">Bălți</button>
+          <button class="ts-city-btn" type="button" data-city="Ialoveni">Ialoveni</button>
+          <button class="ts-city-btn" type="button" data-city="Orhei">Orhei</button>
+          <button class="ts-city-btn" type="button" data-city="Cahul">Cahul</button>
+          <button class="ts-city-btn" type="button" data-city="Ungheni">Ungheni</button>
+          <button class="ts-city-btn" type="button" data-city="Soroca">Soroca</button>
+          <button class="ts-city-btn" type="button" data-city="Edineț">Edineț</button>
+          <button class="ts-city-btn" type="button" data-city="Comrat">Comrat</button>
+          <button class="ts-city-btn" type="button" data-city="Strășeni">Strășeni</button>
+          <button class="ts-city-btn" type="button" data-city="Hîncești">Hîncești</button>
+          <button class="ts-city-btn" type="button" data-city="Drochia">Drochia</button>
+          <button class="ts-city-btn" type="button" data-city="Florești">Florești</button>
+          <button class="ts-city-btn" type="button" data-city="Căușeni">Căușeni</button>
+          <button class="ts-city-btn" type="button" data-city="Criuleni">Criuleni</button>
+          <button class="ts-city-btn" type="button" data-city="Nisporeni">Nisporeni</button>
+          <button class="ts-city-btn" type="button" data-city="Ștefan Vodă">Ștefan Vodă</button>
+          <button class="ts-city-btn" type="button" data-city="Altă localitate">Altă localitate</button>
         </div>
-        <div class="ts-estimate-row">
-          <div><strong>Total estimativ</strong></div>
-          <div class="ts-estimate-total" id="summaryTotal">0 lei</div>
+        <div class="ts-city-other" id="cityOtherWrap">
+          <div class="ts-field">
+            <label for="cityOther">Scrie localitatea</label>
+            <input class="ts-input" id="cityOther" type="text" placeholder="Ex: Cimișlia">
+          </div>
         </div>
-        <div class="ts-estimate-note" id="summaryNote">
-          Prețul este orientativ. Oferta exactă poate include accesorii, livrare și detalii tehnice în funcție de proiect.
+        <div class="ts-actions-bottom">
+          <button class="ts-btn ts-btn-main" type="button" id="next6">Continuă →</button>
+          <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
         </div>
-      </div>
+      </section>
 
-      <div class="ts-thank-summary" style="margin-top:18px;">
-        <div class="ts-thank-row"><span>Model:</span><strong id="sumModel">-</strong></div>
-        <div class="ts-thank-row"><span>Culoare:</span><strong id="sumColor">-</strong></div>
-        <div class="ts-thank-row"><span>Formă:</span><strong id="sumShape">-</strong></div>
-        <div class="ts-thank-row"><span>Suprafață:</span><strong id="sumArea">-</strong></div>
-        <div class="ts-thank-row"><span>Localitate:</span><strong id="sumCity">-</strong></div>
-        <div class="ts-thank-row"><span>Pachet:</span><strong id="sumPackage">-</strong></div>
-      </div>
-
-      <div class="ts-contact-box">
-        <div class="ts-field">
-          <label for="clientName">Numele tău</label>
-          <input class="ts-input" id="clientName" type="text" placeholder="Numele tău">
-        </div>
-        <div class="ts-field">
-          <label for="clientPhone">Telefon</label>
-          <input class="ts-input" id="clientPhone" type="tel" placeholder="+373 XX XXX XXX">
-        </div>
-      </div>
-
-      <div class="ts-submit-row">
-        <button class="ts-btn ts-btn-main ts-strong" type="button" id="sendWhatsapp">Primește oferta exactă →</button>
-        <button class="ts-btn ts-btn-blue" type="button" id="sendMessenger">Deschide Messenger</button>
-      </div>
-      <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
-    </section>
-
-    <section class="ts-step" data-step="8">
-      <div class="ts-thank">
-        <div class="ts-thank-icon">✓</div>
-        <h3 id="thankTitle">Mulțumim!</h3>
-        <p>Mesajul a fost pregătit. Te vom contacta în cel mai scurt timp cu oferta detaliată pentru acoperiș.</p>
-
-        <div class="ts-thank-summary">
-          <div class="ts-thank-row"><span>Material:</span><strong id="thankMaterial">Țiglă metalică</strong></div>
-          <div class="ts-thank-row"><span>Model:</span><strong id="thankModel">-</strong></div>
-          <div class="ts-thank-row"><span>Suprafață:</span><strong id="thankArea">-</strong></div>
-          <div class="ts-thank-row"><span>Estimare totală:</span><strong id="thankTotal" style="color:var(--accent-strong);">-</strong></div>
+      <section class="ts-step" data-step="7">
+        <div class="ts-step-head">
+          <div>
+            <div class="ts-step-no">Pas 7 din 7</div>
+            <h2>Rezumat și datele tale</h2>
+            <p>Verifică estimarea, apoi primești oferta exactă.</p>
+          </div>
+          <button class="ts-back" type="button" data-back="6">← Înapoi</button>
         </div>
 
-        <div class="ts-submit-row" style="margin-top:18px;">
-          <button class="ts-btn ts-btn-main ts-strong" type="button" id="downloadOfferImage">Descarcă oferta ca imagine</button>
-          <button class="ts-btn ts-btn-dark" type="button" id="restartCalc">Calculează din nou</button>
+        <div class="ts-estimate">
+          <div class="ts-estimate-label">Estimare preț</div>
+          <div class="ts-estimate-row">
+            <div><div id="summaryLine1" style="font-size:19px;">Țiglă metalică × 0 m²</div></div>
+            <strong id="summaryPartial">0 lei</strong>
+          </div>
+          <div class="ts-estimate-row">
+            <div><strong>Total estimativ</strong></div>
+            <div class="ts-estimate-total" id="summaryTotal">0 lei</div>
+          </div>
+          <div class="ts-estimate-note" id="summaryNote">
+            Prețul este orientativ. Oferta exactă poate include accesorii, livrare și detalii tehnice în funcție de proiect.
+          </div>
         </div>
-      </div>
-    </section>
+
+        <div class="ts-thank-summary" style="margin-top:18px;">
+          <div class="ts-thank-row"><span>Model:</span><strong id="sumModel">-</strong></div>
+          <div class="ts-thank-row"><span>Culoare:</span><strong id="sumColor">-</strong></div>
+          <div class="ts-thank-row"><span>Formă:</span><strong id="sumShape">-</strong></div>
+          <div class="ts-thank-row"><span>Suprafață:</span><strong id="sumArea">-</strong></div>
+          <div class="ts-thank-row"><span>Localitate:</span><strong id="sumCity">-</strong></div>
+          <div class="ts-thank-row"><span>Pachet:</span><strong id="sumPackage">-</strong></div>
+        </div>
+
+        <div class="ts-contact-box">
+          <div class="ts-field">
+            <label for="clientName">Numele tău</label>
+            <input class="ts-input" id="clientName" type="text" placeholder="Numele tău">
+          </div>
+          <div class="ts-field">
+            <label for="clientPhone">Telefon</label>
+            <input class="ts-input" id="clientPhone" type="tel" placeholder="+373 XX XXX XXX" inputmode="tel">
+          </div>
+        </div>
+
+        <div class="ts-submit-row">
+          <button class="ts-btn ts-btn-main ts-strong" type="button" id="sendWhatsapp">Primește oferta exactă →</button>
+          <button class="ts-btn ts-btn-blue" type="button" id="sendMessenger">Deschide Messenger</button>
+        </div>
+        <div class="ts-direct">Sau sună direct: <a href="tel:+37379980247">+373 79 980 247</a></div>
+      </section>
+
+      <section class="ts-step" data-step="8">
+        <div class="ts-thank">
+          <div class="ts-thank-icon">✓</div>
+          <h3 id="thankTitle">Mulțumim!</h3>
+          <p>Mesajul a fost pregătit. Te vom contacta în cel mai scurt timp cu oferta detaliată pentru acoperiș.</p>
+
+          <div class="ts-thank-summary">
+            <div class="ts-thank-row"><span>Material:</span><strong id="thankMaterial">Țiglă metalică</strong></div>
+            <div class="ts-thank-row"><span>Model:</span><strong id="thankModel">-</strong></div>
+            <div class="ts-thank-row"><span>Suprafață:</span><strong id="thankArea">-</strong></div>
+            <div class="ts-thank-row"><span>Estimare totală:</span><strong id="thankTotal" style="color:var(--accent-strong);">-</strong></div>
+          </div>
+
+          <div class="ts-submit-row" style="margin-top:18px;">
+            <button class="ts-btn ts-btn-main ts-strong" type="button" id="downloadOfferImage">Descarcă oferta ca imagine</button>
+            <button class="ts-btn ts-btn-dark" type="button" id="restartCalc">Calculează din nou</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <textarea id="copyBuffer" class="ts-hidden-copy" readonly></textarea>
   </div>
-
-  <textarea id="copyBuffer" class="ts-hidden-copy" readonly></textarea>
 </div>
 
-<div class="ts-floating-bar">
-  <div class="ts-floating-inner">
-    <a class="ts-mini-btn" href="tel:+37379980247" style="background:linear-gradient(135deg,#111 0%,#222 100%);">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.8 3.5 3.1 4.8 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.2 1 .4 2 .6 3 .6.6 0 1 .4 1 1V21c0 .6-.4 1-1 1C10.7 22 2 13.3 2 2c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1 .2 2 .6 3 .1.4.1.8-.2 1.2L6.6 10.8Z" stroke="currentColor" stroke-width="1.7" fill="none"/></svg>
-      Sună
-    </a>
-    <button class="ts-mini-btn" id="bottomMessenger" type="button" style="background:linear-gradient(135deg,#1290ff 0%,#0073e6 100%);">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.4 5.4 3.7 7.1V22l3.4-1.9c.9.2 1.9.3 2.9.3 5.5 0 10-4.1 10-9.2S17.5 2 12 2Zm1 12.4-2.5-2.7-4.9 2.7 5.4-5.7 2.6 2.7 4.8-2.7-5.4 5.7Z"/></svg>
-      Messenger
-    </button>
-  </div>
-</div>
-
-<div id="offerExportWrap" style="position:fixed;left:-99999px;top:0;width:430px;background:#fff;z-index:-1;">
-  <div id="offerExportCard" style="width:430px;background:#fff;color:#111;padding:22px;font-family:Arial,Helvetica,sans-serif;box-sizing:border-box;border-radius:28px;">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px;">
+<div id="offerExportWrap">
+  <div id="offerExportCard">
+    <div class="ts-export-head">
       <div>
-        <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:#9ca3af;font-weight:800;margin-bottom:8px;">Ofertă estimativă</div>
-        <div style="font-size:26px;font-weight:900;line-height:1.05;color:#111;">Acoperiș metalic</div>
-        <div style="margin-top:6px;font-size:13px;color:#6b7280;">Calcul generat automat</div>
+        <div class="ts-export-badge">Ofertă estimativă</div>
+        <div class="ts-export-title">Acoperiș metalic</div>
+        <div class="ts-export-sub">Calcul generat automat</div>
       </div>
-      <div style="text-align:right;">
-        <div style="font-size:10px;text-transform:uppercase;color:#c7ccd4;letter-spacing:1.2px;font-weight:800;">TotulShop.md</div>
-      </div>
+      <div class="ts-export-brand">TotulShop.md</div>
     </div>
 
-    <div style="background:linear-gradient(180deg,#fbfbfb 0%,#f3f4f6 100%);border:1px solid #e5e7eb;border-radius:22px;padding:14px;margin-bottom:16px;">
-      <img id="expImage" src="" alt="Acoperiș selectat" style="width:100%;height:190px;object-fit:contain;display:block;">
+    <div class="ts-export-image-box">
+      <img id="expImage" src="" alt="Acoperiș selectat">
     </div>
 
-    <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:10px 12px;margin-bottom:16px;">
-      <span id="expColorDot" style="width:16px;height:16px;border-radius:999px;border:1px solid rgba(0,0,0,.15);display:inline-block;background:#444;"></span>
-      <strong id="expColorName" style="font-size:14px;">-</strong>
+    <div class="ts-export-color">
+      <span id="expColorDot" class="ts-export-color-dot" style="background:#444;"></span>
+      <strong id="expColorName">-</strong>
     </div>
 
-    <div style="background:#fff5f5;border:1px solid #ffd5d9;border-radius:22px;padding:16px;margin-bottom:16px;">
-      <div style="font-size:11px;text-transform:uppercase;color:#b91c1c;font-weight:800;letter-spacing:1px;margin-bottom:8px;">Total estimativ</div>
-      <div id="expTotal" style="font-size:38px;line-height:1;font-weight:900;color:#c40010;">0 lei</div>
+    <div class="ts-export-total">
+      <div class="ts-export-total-label">Total estimativ</div>
+      <div id="expTotal" class="ts-export-total-value">0 lei</div>
     </div>
 
-    <div style="border:1px solid #e5e7eb;border-radius:22px;overflow:hidden;margin-bottom:16px;">
-      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+    <div class="ts-export-table">
+      <table>
         <tbody>
           <tr>
-            <td style="padding:12px;border-bottom:1px solid #eef2f7;color:#6b7280;">Model</td>
-            <td id="expModel" style="padding:12px;border-bottom:1px solid #eef2f7;font-weight:800;text-align:right;">-</td>
+            <td>Model</td>
+            <td id="expModel">-</td>
           </tr>
           <tr>
-            <td style="padding:12px;border-bottom:1px solid #eef2f7;color:#6b7280;">Formă</td>
-            <td id="expShape" style="padding:12px;border-bottom:1px solid #eef2f7;font-weight:800;text-align:right;">-</td>
+            <td>Formă</td>
+            <td id="expShape">-</td>
           </tr>
           <tr>
-            <td style="padding:12px;border-bottom:1px solid #eef2f7;color:#6b7280;">Pachet</td>
-            <td id="expPackage" style="padding:12px;border-bottom:1px solid #eef2f7;font-weight:800;text-align:right;">-</td>
+            <td>Pachet</td>
+            <td id="expPackage">-</td>
           </tr>
           <tr>
-            <td style="padding:12px;border-bottom:1px solid #eef2f7;color:#6b7280;">Dimensiuni</td>
-            <td id="expSize" style="padding:12px;border-bottom:1px solid #eef2f7;font-weight:800;text-align:right;">-</td>
+            <td>Dimensiuni</td>
+            <td id="expSize">-</td>
           </tr>
           <tr>
-            <td style="padding:12px;border-bottom:1px solid #eef2f7;color:#6b7280;">Pantă</td>
-            <td id="expSlope" style="padding:12px;border-bottom:1px solid #eef2f7;font-weight:800;text-align:right;">-</td>
+            <td>Pantă</td>
+            <td id="expSlope">-</td>
           </tr>
           <tr>
-            <td style="padding:12px;border-bottom:1px solid #eef2f7;color:#6b7280;">Streașină</td>
-            <td id="expEave" style="padding:12px;border-bottom:1px solid #eef2f7;font-weight:800;text-align:right;">-</td>
+            <td>Streașină</td>
+            <td id="expEave">-</td>
           </tr>
           <tr>
-            <td style="padding:12px;color:#6b7280;">Suprafață</td>
-            <td id="expArea" style="padding:12px;font-weight:800;text-align:right;">-</td>
+            <td>Suprafață</td>
+            <td id="expArea">-</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:18px;padding:14px;margin-bottom:16px;">
-      <div style="font-size:11px;text-transform:uppercase;color:#9ca3af;font-weight:800;letter-spacing:1px;margin-bottom:8px;">Date client</div>
-      <div style="display:grid;gap:6px;font-size:14px;">
-        <div><span style="color:#6b7280;">Client:</span> <strong id="expClient">-</strong></div>
-        <div><span style="color:#6b7280;">Telefon:</span> <strong id="expPhone">-</strong></div>
-        <div><span style="color:#6b7280;">Localitate:</span> <strong id="expCity">-</strong></div>
-        <div><span style="color:#6b7280;">Data:</span> <strong id="expDate">-</strong></div>
+    <div class="ts-export-client">
+      <div class="ts-export-client-title">Date client</div>
+      <div class="ts-export-client-grid">
+        <div><span>Client:</span> <strong id="expClient">-</strong></div>
+        <div><span>Telefon:</span> <strong id="expPhone">-</strong></div>
+        <div><span>Localitate:</span> <strong id="expCity">-</strong></div>
+        <div><span>Data:</span> <strong id="expDate">-</strong></div>
       </div>
     </div>
 
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:6px;">
-      <div style="font-size:11px;color:#c0c6ce;letter-spacing:.6px;">totulshop.md</div>
-      <div style="font-size:11px;color:#9ca3af;">+373 79 980 247</div>
+    <div class="ts-export-footer">
+      <div>totulshop.md</div>
+      <div>+373 79 980 247</div>
     </div>
   </div>
 </div>
@@ -1042,6 +1264,7 @@ a{text-decoration:none}
   const ROOF_TILE_PRICE = 135;
   const ROOF_ACCESSORIES_FACTOR = 0.35;
   const ROOF_TURNKEY_PRICE = 1350;
+  const FALLBACK_IMAGE = "https://totulshop.md/content/images/26/500x500l80nn0/logo-totulshop-24790995777648.webp";
 
   const roofColors = [
     { id:"3005", name:"Roșu vin 3005", hex:"#7b1f29" },
@@ -1168,7 +1391,29 @@ a{text-decoration:none}
 
   function $(id){ return document.getElementById(id); }
   function money(n){ return Math.round(n).toLocaleString("ro-RO") + " lei"; }
-  function num(v){ const n = parseFloat(String(v).replace(",", ".")); return isNaN(n) ? 0 : n; }
+  function num(v){
+    const n = parseFloat(String(v).replace(",", "."));
+    return isNaN(n) ? 0 : n;
+  }
+
+  function setAppHeight(){
+    const vh = window.innerHeight;
+    document.documentElement.style.setProperty("--app-height", vh + "px");
+  }
+
+  function scrollToTopHard(){
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    requestAnimationFrame(() => {
+      window.scrollTo({ top:0, behavior:"auto" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
+    setTimeout(() => {
+      window.scrollTo({ top:0, behavior:"smooth" });
+    }, 30);
+  }
 
   function getModel(){ return roofModels.find(m => m.id === state.model) || roofModels[0]; }
   function getColor(){ return roofColors.find(c => c.id === state.color) || roofColors[0]; }
@@ -1179,9 +1424,15 @@ a{text-decoration:none}
     return fallback ? fallback.name : colorId;
   }
 
+  function safeImage(url){
+    return url || FALLBACK_IMAGE;
+  }
+
   function roofImageFor(model, colorId){
-    if(model.colors && model.colors[colorId] && model.colors[colorId].img) return model.colors[colorId].img;
-    return model.img;
+    if(model.colors && model.colors[colorId] && model.colors[colorId].img){
+      return safeImage(model.colors[colorId].img);
+    }
+    return safeImage(model.img);
   }
 
   function getFinalCity(){
@@ -1195,7 +1446,9 @@ a{text-decoration:none}
     return "-";
   }
 
-  function shapeLabel(key){ return key === "4ape" ? "4 ape" : "2 ape"; }
+  function shapeLabel(key){
+    return key === "4ape" ? "4 ape" : "2 ape";
+  }
 
   function roofMath(){
     const length = num(state.length);
@@ -1282,7 +1535,7 @@ a{text-decoration:none}
     if(!currentEl || currentEl === nextEl){
       document.querySelectorAll(".ts-step").forEach(el => el.classList.remove("ts-active","ts-leaving-left","ts-leaving-right"));
       nextEl.classList.add("ts-active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollToTopHard();
       return;
     }
 
@@ -1296,7 +1549,7 @@ a{text-decoration:none}
       if(currentEl !== nextEl) currentEl.style.display = "";
     }, 360);
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(scrollToTopHard, 10);
   }
 
   function validateStep(step){
@@ -1384,12 +1637,22 @@ a{text-decoration:none}
       try{
         buffer.focus();
         buffer.select();
-        document.execCommand("copy");
-        resolve();
+        const ok = document.execCommand("copy");
+        if(ok) resolve();
+        else reject(new Error("copy failed"));
       }catch(err){
         reject(err);
       }
     });
+  }
+
+  function bindSafeImage(img, src){
+    img.onerror = function(){
+      if(img.dataset.fallbackApplied === "1") return;
+      img.dataset.fallbackApplied = "1";
+      img.src = FALLBACK_IMAGE;
+    };
+    img.src = src;
   }
 
   function renderModelGrid(){
@@ -1402,7 +1665,7 @@ a{text-decoration:none}
       card.innerHTML = `
         <div class="ts-check">${state.model === model.id ? "✓" : ""}</div>
         <div class="ts-model-media">
-          <img src="${model.img}" alt="${model.name}" loading="lazy">
+          <img alt="${model.name}">
         </div>
         <div class="ts-model-body">
           <div class="ts-model-sub">${count} culori disponibile</div>
@@ -1410,6 +1673,8 @@ a{text-decoration:none}
           <div class="ts-model-desc">${model.shortDescription}</div>
         </div>
       `;
+      const img = card.querySelector("img");
+      bindSafeImage(img, safeImage(model.img));
       card.addEventListener("click", () => {
         state.model = model.id;
         const allowed = Object.keys(model.colors);
@@ -1444,7 +1709,7 @@ a{text-decoration:none}
   function renderPreview(){
     const model = getModel();
     const color = getColor();
-    $("previewImage").src = roofImageFor(model, color.id);
+    bindSafeImage($("previewImage"), roofImageFor(model, color.id));
     $("previewModelName").textContent = model.name;
     $("previewDot").style.background = color.hex;
     $("previewColorName").textContent = colorNameForModel(model, color.id);
@@ -1522,7 +1787,7 @@ a{text-decoration:none}
     $("expPhone").textContent = state.phone || "-";
     $("expCity").textContent = getFinalCity() || "-";
 
-    $("expImage").src = roofImageFor(model, color.id);
+    bindSafeImage($("expImage"), roofImageFor(model, color.id));
     $("expColorDot").style.background = color.hex;
     $("expColorName").textContent = colorNameForModel(model, color.id);
 
@@ -1541,8 +1806,10 @@ a{text-decoration:none}
     return Promise.all(images.map(img => {
       if(img.complete) return Promise.resolve();
       return new Promise(resolve => {
-        img.onload = resolve;
-        img.onerror = resolve;
+        const done = () => resolve();
+        img.onload = done;
+        img.onerror = done;
+        setTimeout(done, 2500);
       });
     }));
   }
@@ -1551,16 +1818,26 @@ a{text-decoration:none}
     try{
       fillExportCard();
       await waitForExportImages($("offerExportCard"));
+
       const canvas = await html2canvas($("offerExportCard"), {
-        scale:2,
-        useCORS:true,
-        backgroundColor:"#ffffff",
-        allowTaint:true
+        scale: 1.5,
+        useCORS: false,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+        width: 1080,
+        height: 1920,
+        windowWidth: 1080,
+        windowHeight: 1920,
+        scrollX: 0,
+        scrollY: 0
       });
+
       const link = document.createElement("a");
       link.download = "oferta-acoperis-totulshop.png";
       link.href = canvas.toDataURL("image/png", 1.0);
+      document.body.appendChild(link);
       link.click();
+      link.remove();
     }catch(e){
       alert("Nu s-a putut genera imaginea ofertei.");
     }
@@ -1609,17 +1886,17 @@ a{text-decoration:none}
     });
   });
 
-  document.querySelectorAll("[data-city]").forEach(el => {
-    el.addEventListener("click", () => {
-      state.city = el.getAttribute("data-city");
-      if(state.city !== "Altă localitate"){
-        state.customCity = "";
-        $("cityOther").value = "";
-      }
-      renderCities();
-      renderSummary();
-      refreshContinueButtons();
-    });
+  document.addEventListener("click", function(e){
+    const cityBtn = e.target.closest("[data-city]");
+    if(!cityBtn) return;
+    state.city = cityBtn.getAttribute("data-city");
+    if(state.city !== "Altă localitate"){
+      state.customCity = "";
+      $("cityOther").value = "";
+    }
+    renderCities();
+    renderSummary();
+    refreshContinueButtons();
   });
 
   ["houseLength","houseWidth","houseSlope","houseEave"].forEach(id => {
@@ -1664,8 +1941,15 @@ a{text-decoration:none}
 
     const message = buildLeadMessage();
     const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+
     goToStep(8);
-    setTimeout(() => window.open(url, "_blank"), 250);
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if(isIOS){
+      window.location.href = url;
+    }else{
+      window.open(url, "_blank", "noopener");
+    }
   });
 
   $("sendMessenger").addEventListener("click", async () => {
@@ -1682,13 +1966,18 @@ a{text-decoration:none}
     try{
       await copyToClipboard(message);
       goToStep(8);
-      setTimeout(() => window.open(MESSENGER_LINK, "_blank"), 250);
+
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      if(isIOS){
+        window.location.href = MESSENGER_LINK;
+      }else{
+        window.open(MESSENGER_LINK, "_blank", "noopener");
+      }
     }catch(err){
       alert("Nu am putut copia automat textul pentru Messenger.");
     }
   });
 
-  $("bottomMessenger").addEventListener("click", () => window.open(MESSENGER_LINK, "_blank"));
   $("downloadOfferImage").addEventListener("click", downloadOfferImage);
 
   $("restartCalc").addEventListener("click", () => {
@@ -1718,10 +2007,18 @@ a{text-decoration:none}
     goToStep(1);
   });
 
+  window.addEventListener("resize", setAppHeight, { passive:true });
+  window.addEventListener("orientationchange", () => {
+    setTimeout(setAppHeight, 50);
+    setTimeout(setAppHeight, 250);
+  }, { passive:true });
+  window.addEventListener("pageshow", setAppHeight, { passive:true });
+
+  setAppHeight();
   renderAll();
   goToStep(1);
   refreshContinueButtons();
 })();
 </script>
 </body>
-            </html>
+</html>
